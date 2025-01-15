@@ -68,7 +68,7 @@ In this part, we fine-tune the [pre-trained model](https://drive.google.com/file
 ### TAPE Tasks
 Secondary structure prediction, contact prediction, remote homology detection, stability prediction, and fluorescence prediction are tasks from [TAPE](https://github.com/songlab-cal/tape).
 
-Similar to [OntoProtein](https://github.com/zjunlp/OntoProtein), for these tasks, we provide scripts for fine-tuning under `script/` (❗Preferred). You may need to modify the DATA_DIR and OUTPUT_DIR paths in `run_main.sh` before running the scripts.
+For these tasks, we provide scripts for fine-tuning under `script/` (❗Preferred). You may need to modify the DATA_DIR and OUTPUT_DIR paths in `run_main.sh` before running the scripts.
 
 For example, you can fine-tune GLProtein for contact prediction by running the following script:
 ```shell
