@@ -1,6 +1,7 @@
 # GLProtein: Global-and-Local Structure Aware Protein Representation Learning
 
 This repository contains an official implementation of GLProtein.
+![](figures/archi.png)
 
 ----
 ## Environments for Pre-training
