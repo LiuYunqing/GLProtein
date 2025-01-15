@@ -12,7 +12,7 @@ This repository contains an official implementation of GLProtein.
 - deepspeed 0.6.5
 - lmdb
 
-Following [OntoProtein](https://github.com/zjunlp/OntoProtein), we also make small changes to the `deepspeed.py` file under transformers library (❗required for pre-training).
+We make small changes to the `deepspeed.py` file under transformers library (❗required for pre-training).
 The changes can be applied by running:
 
 ```shell
