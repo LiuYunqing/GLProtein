@@ -1,6 +1,6 @@
 # GLProtein: Global-and-Local Structure Aware Protein Representation Learning
 
-This repository contains an official implementation of GLProtein.
+This is the implement of the EMNLP'2025 paper "[GLProtein: Global-and-Local Structure Aware Protein Representation Learning](https://arxiv.org/abs/2506.06294)". GLProtein combines protein-masked modelling with triplet structure similarity scoring, protein 3D distance encoding and substructure-based amino acid molecule encoding.
 ![](figures/archi.png)
 
 ----
