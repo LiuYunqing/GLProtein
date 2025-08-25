@@ -143,7 +143,7 @@ To validate GLProtein for PPI prediction:
 ---
 ## Acknowledgements
 The implementation cannot proceed without referencing 
-[OntoProtein](https://github.com/zjunlp/OntoProtein) and [KeAP](https://github.com/RL4M/KeAP). 
+[OntoProtein](https://github.com/zjunlp/OntoProtein), [KeAP](https://github.com/RL4M/KeAP) and [TM-Vec](https://github.com/tymor22/tm-vec). 
 
 ---
 ## Citation
