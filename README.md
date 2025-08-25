@@ -138,3 +138,20 @@ To validate GLProtein for PPI prediction:
 - Extract embeddings using pre-trained GLProtein by running `src/benchmark/GNN_PPI/extract_protein_embeddings.py`.
 - Change paths listed in `src/benchmark/GNN_PPI/run.py` accordingly. 
 - Run `src/benchmark/GNN_PPI/run.py`.
+
+
+---
+## Acknowledgements
+The implementation cannot proceed without referencing 
+[OntoProtein](https://github.com/zjunlp/OntoProtein) and [KeAP](https://github.com/RL4M/KeAP). 
+
+---
+## Citation
+```
+@article{liu2025glprotein,
+  title={GLProtein: Global-and-Local Structure Aware Protein Representation Learning},
+  author={Liu, Yunqing and Fan, Wenqi and Wei, Xiaoyong and Li, Qing},
+  journal={arXiv preprint arXiv:2506.06294},
+  year={2025}
+}
+```
