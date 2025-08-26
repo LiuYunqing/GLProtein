@@ -675,28 +675,15 @@ class KnowledgeDecoder(BertPreTrainedModel):
         delta_pos = torch.mean(delta_pos,dim=2)
         coordinate_feat = self.coordinate_project(delta_pos) #(batch,coordinate len, decoder hidden dim)
         
-        # import ipdb; ipdb.set_trace()
-        #get the aa_vec mask
-        # aa_vec_attention_mask = torch.mean(aa_vec_input,dim=2)
-        # aa_vec_attention_mask = torch.where(torch.isinf(aa_vec_attention_mask),torch.zeros_like(aa_vec_attention_mask),aa_vec_attention_mask)
-        # aa_vec_attention_mask = torch.where(torch.isnan(aa_vec_attention_mask),torch.zeros_like(aa_vec_attention_mask),aa_vec_attention_mask)
+        
         aa_vec_attention_mask = coordinate_attention_mask
 
 
         aa_vec_feat = self.aa_vec_project(aa_vec_input) #(batch,aa_vec len, decoder hidden dim)
 
-        # import ipdb; ipdb.set_trace()
         
-        # edge_feature = self.gbf(dist, torch.zeros_like(dist).long())
-        # gbf_result = self.gbf_proj(edge_feature)
-        # coordinate_feat = self.coordinate_project(coordinate_input) #(batch,protein len, decoder hidden dim)
-        # import ipdb; ipdb.set_trace()
-        ### go feature extraction
         go_input_ids, go_attention_mask, go_token_type_ids = go_inputs
-        # print("go_input_ids",go_input_ids)
-        # print("go_attention_mask",go_attention_mask)
-        # print("go_token_type_ids",go_token_type_ids)
-        # import ipdb; ipdb.set_trace()
+        
 
         go_out = self.textbert(go_input_ids,
                                     attention_mask=go_attention_mask,
@@ -778,21 +765,12 @@ class KeAP(nn.Module):
         super().__init__()
         self.encoder_config = config.protein_model_config
         self.decoder_config = config.decoder_config
-        # main protein encoder
-        # import ipdb; ipdb.set_trace()
-        # self.encoder=T5ForConditionalGeneration.from_pretrained(self.encoder_config._name_or_path)
         self.encoder=BertModel(self.encoder_config, add_pooling_layer=False)
 
         
         
 
-        # self.fusion = nn.Linear(3, 1024)
-        # self.fusion = SimpleMLP(1027, 512, 1024)
-        # self.fusion = nn.Linear(1027, 1024)
-        # decoder
-        # self.decoder = KnowledgeDecoder(self.decoder_config)
-        # self.protein3d_bias = Protein3DBias()
-        # self.alpha = 0.5
+      
         
 
     def forward(self,
@@ -805,22 +783,14 @@ class KeAP(nn.Module):
         output_attentions: bool = False
         ):
 
-        # print("protein_inputs",protein_inputs)
-        # import pdb
-        # pdb.set_trace() 
+      
 
         protein_input_ids, protein_attention_mask, protein_token_type_ids, protein_coordinates,coordinate_attention_mask, aa_vec, aa_vec_attention_mask= protein_inputs
         
         coordinate_inputs = (protein_coordinates,coordinate_attention_mask)
         aa_vec_inputs = (aa_vec,aa_vec_attention_mask)
 
-        import ipdb; ipdb.set_trace()
-
-        # print("protein_input_ids",protein_input_ids)
-        # print("protein_attention_mask",protein_attention_mask)
-        # print("protein_token_type_ids",protein_token_type_ids)
-        # print("protein_coordinates",protein_coordinates)
-        # import ipdb; ipdb.set_trace()
+       
 
         protein_outputs = self.encoder(
             input_ids=protein_input_ids,
@@ -831,82 +801,9 @@ class KeAP(nn.Module):
             output_attentions=output_attentions
         )
 
-        # prot_seq_embed = protein_outputs.hidden_states[-1]
-        # import ipdb; ipdb.set_trace()
+
         prot_seq_embed = protein_outputs[0] 
-        # import ipdb;ipdb.set_trace()
-        # print("prot_seq_embed",prot_seq_embed.size())
-        # print("protein_coordinates",protein_coordinates.size())
-        # import pdb; pdb.set_trace()
-        #debug
-        # print(prot_seq_embed.size()
         
-
-        # fusion 3D information bias
-        # n_protein, n_node = protein_input_ids.size()[:2]
-        # padding_mask = (protein_input_ids[:,:,0]).eq(0)
-        # padding_mask_cls = torch.zeros(n_protein, 1, device=padding_mask.device, dtype=padding_mask.dtype)
-        # padding_mask = torch.cat((padding_mask_cls, padding_mask), dim=1)
-
-        # delta_pos = None 
-        # attn_bias_3d, merge_edge_features, delta_pos = self.protein3d_bias({'protein_coordinates':protein_coordinates, 'protein_input_ids':protein_input_ids, 'protein_token_type_ids':protein_token_type_ids})
-
-        # print("attn_bias_3d",attn_bias_3d)
-        # print("merge_edge_features",merge_edge_features)
-        # print("delta_pos",delta_pos)
-        # import ipdb; ipdb.set_trace()
-
-
-
-
-        # fusion in decoder
-        # print("protein_coordinates",protein_coordinates.size())
-        # # print("protein_coordinates",protein_coordinates)
-        # print("prot_seq_embed",prot_seq_embed.size())
-        # import pdb; pdb.set_trace()
-        # try:
-
-        # print("protein_coordinates",protein_coordinates.size())
-        # print("prot_seq_embed",prot_seq_embed.size())
-        # exit()
-
-
-        # # 3D coords fusion (cat)
-        # prot_seq_embed = torch.cat((prot_seq_embed, protein_coordinates),dim=-1)
-        # prot_seq_embed = self.fusion(prot_seq_embed)
-        
-        # 3D coords fusion (embedding add)
-        # print("protein_coordinates",protein_coordinates)
-        # coords_embedding = self.fusion(protein_coordinates)
-        # print("coords_embedding",coords_embedding)
-        # import ipdb; ipdb.set_trace()
-        # prot_seq_embed = prot_seq_embed + self.alpha* coords_embedding
-
-    
-
-        # except:
-            # print("protein_coordinates",protein_coordinates.size())
-            # for i in range(len(protein_coordinates)):
-            #     print(protein_coordinates[i].size())
-            # print('prot_seq_embed',prot_seq_embed.size())
-            # print(protein_input_ids)
-            # import pdb; pdb.set_trace()
-
-
-        # # fusion strategy 1: concat
-        # prot_pos_embed = placeholder*lamda # lamda is a hyperparameter
-    
-
-        # # concat fusion
-        # prot_seq_embed = torch.cat((prot_seq_embed,prot_pos_embed),dim=-1)
-
-        # prot_seq_embed = self.fusion(prot_seq_embed)
-
-
-
-
-        # Note only consider mlm_loss calculated from "positive knowledge"
-        # import ipdb; ipdb.set_trace()
         out, mlm_prediction_scores, pos_pfi_prediction = self.decoder(pos_relation_inputs, pos_go_tail_inputs,inputs_embeds=prot_seq_embed,
             attention_mask=protein_attention_mask,
             token_type_ids=protein_token_type_ids,
@@ -1042,11 +939,7 @@ class KeAPLoss:
         coordinate_attenion_mask = protein_go_inputs['coordinate_attention_mask']
         protein_mlm_aa_vec_embed = protein_go_inputs['aa_vec']  # add aa_vec here
         aa_vec_attention_mask= protein_go_inputs['aa_vec_attention_mask']
-        # print("protein_mlm_input_ids",protein_mlm_input_ids)
-        # print("protein_mlm_attention_mask",protein_mlm_attention_mask)
-        # print("protein_mlm_token_type_ids",protein_mlm_token_type_ids)
-        # print("protein_mlm_pos_embed",protein_mlm_pos_embed)
-        # import ipdb; ipdb.set_trace()
+
 
         protein_input = (protein_mlm_input_ids,protein_mlm_attention_mask,protein_mlm_token_type_ids, protein_mlm_pos_embed,coordinate_attenion_mask,protein_mlm_aa_vec_embed, aa_vec_attention_mask)  # add coordinates here
         # coordinate_input = (protein_mlm_pos_embed,coordinate_attenion_mask)
@@ -1088,15 +981,7 @@ class KeAPLoss:
                 negative_go_tail_inputs = (negative_tail_input_ids, negative_tail_attention_mask, negative_tail_token_type_ids)
 
 
-        # import ipdb; ipdb.set_trace()
 
-        # model_output = model(protein_inputs=protein_input, 
-        # pos_relation_inputs=relation_inputs, 
-        # pos_go_tail_inputs=positive_go_tail_inputs,
-        # neg_relation_inputs=relation_inputs,
-        # neg_go_tail_inputs=negative_go_tail_inputs,
-        # use_pfi=use_pfi
-        # )
 
         model_output = model(protein_mlm_input_ids['input_ids'].to('cuda'), labels =  protein_mlm_labels['input_ids'].to('cuda'))
 
@@ -1197,7 +1082,7 @@ class TMVecLoss:
         protein_sequence = kwargs.pop('sequence', None)
 
         tmvec = torch.tensor(encode(protein_sequence,self.model_deep,self.T5_encoder,self.T5_tokenizer,self.device))
-        # import ipdb;ipdb.set_trace()
+
         batch_size = tmvec.shape[0]
         
         y_true = torch.cat([torch.arange(1,batch_size,step=2,dtype=torch.long).unsqueeze(1),
@@ -1206,11 +1091,9 @@ class TMVecLoss:
         norm_emb = F.normalize(tmvec, dim=1, p=2)
         sim_score = torch.matmul(norm_emb, norm_emb.transpose(0,1))
         sim_score = sim_score - torch.eye(batch_size) * 1e12
-        sim_score = sim_score * 20      # 温度系数为 0.05，也就是乘以20
+        sim_score = sim_score * 20      #
         loss = self.loss_func(sim_score, y_true)
 
-        # import ipdb;ipdb.set_trace()
-        # return loss * self.tmv_lambda
         return loss
 
 
