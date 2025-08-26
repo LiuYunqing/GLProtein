@@ -23,6 +23,10 @@ cp replace_code/deepspeed.py path_to/python3.7/dist-packages/transformers/deepsp
 ## For Global Structure Information Modeling
 We employ [TM-Vec](https://github.com/tymor22/tm-vec) to construct a robust set of positive and negative samples for protein structure similarity analysis.
 
+---
+## For Substructure-based Molecular Encoding
+We use [mol2vec](https://github.com/samoturk/mol2vec) to process and derive representations for amino acid molecules to obtain fine-grained molecular structure information.
+
 ----
 ## Environments for Downstream Tasks
 **Main dependencies**
