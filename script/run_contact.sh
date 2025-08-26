@@ -1,6 +1,6 @@
 nohup sh run_main.sh \
-      --model output/pretrained/KeAP20/encoder \
-      --output_file contact-KeAP20 \
+      --model output/pretrained/GLProtein/encoder \
+      --output_file contact-GLProtein \
       --task_name contact \
       --do_train True \
       --epoch 5 \
@@ -12,4 +12,4 @@ nohup sh run_main.sh \
       --warmup_ratio 0.08 \
       --learning_rate 3e-5 \
       --seed 3 \
-      --frozen_bert False > output/contact/KeAP20.out 2>&1
+      --frozen_bert False > output/contact/GLProtein.out 2>&1
