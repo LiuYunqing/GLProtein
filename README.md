@@ -20,6 +20,10 @@ cp replace_code/deepspeed.py path_to/python3.7/dist-packages/transformers/deepsp
 ```
 
 ----
+## For Global Structure Information Modeling
+We employ [TM-Vec](https://github.com/tymor22/tm-vec) to construct a robust set of positive and negative samples for protein structure similarity analysis.
+
+----
 ## Environments for Downstream Tasks
 **Main dependencies**
 - python 3.7
@@ -143,7 +147,7 @@ To validate GLProtein for PPI prediction:
 ---
 ## Acknowledgements
 The implementation cannot proceed without referencing 
-[OntoProtein](https://github.com/zjunlp/OntoProtein), [KeAP](https://github.com/RL4M/KeAP) and [TM-Vec](https://github.com/tymor22/tm-vec). 
+[OntoProtein](https://github.com/zjunlp/OntoProtein) and [KeAP](https://github.com/RL4M/KeAP). 
 
 ---
 ## Citation
