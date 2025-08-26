@@ -22,11 +22,11 @@ def run_func(description, ppi_path, pseq_path, vec_path,
                     batch_size, epochs))
 
 if __name__ == "__main__":
-    description = "KeAP20_148k_bfs_10"
+    description = "GLProtein_148k_bfs_10"
 
     ppi_path = "data/downstream_datasets/ppi_data/protein.actions.SHS148k.STRING.txt"
     pseq_path = "data/downstream_datasets/ppi_data/protein.SHS148k.sequences.dictionary.tsv"
-    vec_path = "data/downstream_datasets/ppi_data/features/protein_embedding_KeAP20_shs148k.npy"
+    vec_path = "data/downstream_datasets/ppi_data/features/protein_embedding_GLProtein_shs148k.npy"
 
     split_new = "True"
     split_mode = "bfs"
