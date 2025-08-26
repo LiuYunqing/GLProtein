@@ -1,6 +1,6 @@
 nohup sh run_stability.sh \
-      --model output/models/KeAP20/encoder \
-      --output_file stability-KeAP20 \
+      --model output/models/GLProtein/encoder \
+      --output_file stability-GLProtein \
       --task_name stability \
       --do_train True \
       --epoch 5 \
@@ -13,4 +13,4 @@ nohup sh run_stability.sh \
       --warmup_ratio 0.08 \
       --learning_rate 1e-5 \
       --seed 3 \
-      --frozen_bert False > output/stability/KeAP20.out 2>&1
+      --frozen_bert False > output/stability/GLProtein.out 2>&1
