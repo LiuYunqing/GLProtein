@@ -7,7 +7,7 @@
 #SBATCH --gres=gpu:4
 #SBATCH --no-requeue
 
-OUTPUT_DIR="output/pretrained/KeAP20"
+OUTPUT_DIR="output/pretrained/GLProtein"
 PRETRAIN_DATA_DIR="data/ProteinKG25"
 
 # protein sequence setting
