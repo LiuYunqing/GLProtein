@@ -1,6 +1,6 @@
 nohup sh run_main.sh \
-      --model output/models/KeAP20/encoder \
-      --output_file ss8-KeAP20 \
+      --model output/models/GLProtein/encoder \
+      --output_file ss8-GLProtein \
       --task_name ss8 \
       --do_train True \
       --epoch 5 \
@@ -12,4 +12,4 @@ nohup sh run_main.sh \
       --warmup_ratio 0.08 \
       --learning_rate 3e-5 \
       --seed 3 \
-      --frozen_bert False > output/ss8/KeAP20.out 2>&1
+      --frozen_bert False > output/ss8/GLProtein.out 2>&1
