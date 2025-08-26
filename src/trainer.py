@@ -22,7 +22,7 @@ from transformers.file_utils import is_apex_available, is_sagemaker_mp_enabled
 
 from src.dataset import GoGoDataset, ProteinGoDataset, ProteinSeqDataset
 from src.dataloader import DataCollatorForLanguageModeling, DataCollatorForGoGo, DataCollatorForProteinGo
-from src.models import KeAP, KnowledgeDecoder, KeAPLoss
+from src.models import GLProtein, KnowledgeDecoder, GLProteinLoss
 from src.optimization import get_scheduler
 
 
@@ -41,9 +41,9 @@ if version.parse(torch.__version__) >= version.parse("1.6"):
 # Data parallelism: sharded_ddp
 # Model parallelism: deepspeed
 
-class KeAPTrainer(Trainer):
+class GLProteinTrainer(Trainer):
     """
-    KeAP implement the pretraining of protein language model with knowledge injection, which class 
+    GLProtein implement the pretraining of protein language model with knowledge injection, which class 
     inherits from `transformer.Trainer`.
     Note we dont use go_go data
 
@@ -81,7 +81,7 @@ class KeAPTrainer(Trainer):
         self.protein_go_data_collator = protein_go_data_collator
         self.go_go_data_collator = go_go_data_collator
 
-        self.model_loss = KeAPLoss(pfi_weight = self.args.pfi_lambda, mlm_lambda=self.args.mlm_lambda,
+        self.model_loss = GLProteinLoss(pfi_weight = self.args.pfi_lambda, mlm_lambda=self.args.mlm_lambda,
             num_protein_go_neg_sample=self.args.num_protein_go_neg_sample)
 
         self.use_amp = False
