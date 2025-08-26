@@ -239,7 +239,7 @@ class ProteinGoDataset(Dataset):
         self.protein_cor = pickle.load(open(
             self.data_dir + '/id2cor_dict.pkl',
               'rb'))
-        protein_cor = pickle.load(open('/home/yunqing/KeAP/coordinates.pkl','rb'))
+        protein_cor = pickle.load(open('/home/yunqing/GLProtein/coordinates.pkl','rb'))
         # print('cor_length:',len(self.protein_cor))
         # print('protein_num:',len(self.protein_seq))
         # # print(self.protein_cor[0])
@@ -282,13 +282,6 @@ class ProteinGoDataset(Dataset):
         for i in range(len(tmp_vocab)):
             if tmp_vocab[i][0] == signal:
                 aa_vocab[i] = {'aa':keys[i][1],'vec':list(aa_vecs[aa_idx_codes[keys[i][1]]])}
-
-        # with open('./mnt/bd/medai-protein/prot_bert/vocab.txt','r') as f:
-        #     lines = f.readlines()
-        #     lines = [line.rstrip('\n') for line in lines]
-        #     for i in range(len(lines)):
-        #         if lines[i][0]!= '[':
-        #             aa_vocab[i] = {'aa':lines[i],'vec':list(aa_vecs[aa_idx_codes[lines[i]]])}
 
         self.aa_vocab = aa_vocab
 
@@ -347,26 +340,16 @@ class ProteinGoDataset(Dataset):
                 negative_go_input_ids_list.append(neg_go_input_ids)
 
         #TODO
-        try:
-            protein_sequence = self.protein_seq[protein_head_id]
-            protein_sequence = protein_sequence.split(' ')
-            protein_sequence = ''.join(protein_sequence)
-            cor = self.protein_cor[protein_head_id]
-            assert len(cor) == len(protein_sequence)
-        except:
-            protein_sequence = self.protein_seq[protein_head_id]
-            protein_sequence = protein_sequence.split(' ')
-            protein_sequence = ''.join(protein_sequence)
-            
-            os.system("cd ../openprotein; python prediction.py --input_sequence={} --index={}".format(protein_sequence,protein_head_id))
-            
-            # print(protein_sequence)
-            # prediction(protein_sequence,0)
-            # print(11)
+        
+        protein_sequence = self.protein_seq[protein_head_id]
+        protein_sequence = protein_sequence.split(' ')
+        protein_sequence = ''.join(protein_sequence)
+        cor = self.protein_cor[protein_head_id]
+        assert len(cor) == len(protein_sequence)
         cor = []
         try:
             
-            with open('../openprotein/output/predictions/protein_'+ str(protein_head_id) + ".pdb",'r') as f:
+            with open('../output/predictions/protein_'+ str(protein_head_id) + ".pdb",'r') as f:
                 CA = f.readlines()
                 for line in CA:
                     line = line.replace('-', ' -')
@@ -376,18 +359,6 @@ class ProteinGoDataset(Dataset):
                             cor.append([float(line_split[6]), float(line_split[7]), float(line_split[8])])
         except:
             cor = np.zeros((len(protein_sequence),3)).tolist()
-        # os.remove('../openprotein/output/predictions/protein_'+ str(protein_head_id) + ".pdb")
-
-            # print(cor)
-            # print(len(cor))
-            # print(len(protein_sequence))
-
-        # import ipdb;ipdb.set_trace()
-
-
-        #random coordinates
-        #TODO
-        # cor = np.random.rand(len(protein_sequence),3).tolist()
 
 
     
