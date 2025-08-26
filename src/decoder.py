@@ -420,68 +420,35 @@ class BertLayer(nn.Module):
 
         # import ipdb; ipdb.set_trace()
 
-        # # cross-attention with coordinates, hidden states is protein input
-        # self_coordinate_attention_outputs = self.coordinate_attention(
-        #     hidden_states,
-        #     attention_mask,
-        #     head_mask,
-        #     text_hidden_states=coordinate_hidden_states,
-        #     text_attention_mask=coordinate_attention_mask,
-        #     output_attentions=output_attentions,
-        #     past_key_value=self_attn_past_key_value,
-        # )
-        # coordinate_attention_output = self_coordinate_attention_outputs[0]
-
-        # # cross-attention with aa_vec, hidden states is output of coordinate_attention
-        # self_aa_vec_attention_outputs = self.aa_vec_attention(
-        #     coordinate_attention_output,
-        #     attention_mask,
-        #     head_mask,
-        #     text_hidden_states=aa_vec_hidden_states,
-        #     text_attention_mask=aa_vec_attention_mask,
-        #     output_attentions=output_attentions,
-        #     past_key_value=self_attn_past_key_value,
-        # )
-        
-
-        # aa_vec_attention_output = self_aa_vec_attention_outputs[0]
-
-        # go_attention_output = aa_vec_attention_output
-        # go_outputs = self_aa_vec_attention_outputs[1:]  # add self attentions if we output attention weights
-        # import ipdb; ipdb.set_trace()
-
-        # # cross-attention with relation, hidden states is output of coordinate_attention
-        self_attention_outputs = self.relation_attention(
+        # cross-attention with coordinates, hidden states is protein input
+        self_coordinate_attention_outputs = self.coordinate_attention(
             hidden_states,
             attention_mask,
             head_mask,
-            text_hidden_states=relation_hidden_states,
-            text_attention_mask=relation_attention_mask,
+            text_hidden_states=coordinate_hidden_states,
+            text_attention_mask=coordinate_attention_mask,
             output_attentions=output_attentions,
             past_key_value=self_attn_past_key_value,
         )
-        #
-        # save attention outputs for visualization
-        relation_attention_output = self_attention_outputs[0]
-        
-        # # relation_outputs = self_attention_outputs[1:]  # add self attentions if we output attention weights
-        
-        # # cross-attention with go, hidden states is output of relation_attention
-        self_go_attention_outputs = self.go_attention(
-            relation_attention_output,
+        coordinate_attention_output = self_coordinate_attention_outputs[0]
+
+        # cross-attention with aa_vec, hidden states is output of coordinate_attention
+        self_aa_vec_attention_outputs = self.aa_vec_attention(
+            coordinate_attention_output,
             attention_mask,
             head_mask,
-            text_hidden_states=go_hidden_states,
-            text_attention_mask=go_attention_mask,
+            text_hidden_states=aa_vec_hidden_states,
+            text_attention_mask=aa_vec_attention_mask,
             output_attentions=output_attentions,
             past_key_value=self_attn_past_key_value,
         )
-        go_attention_output = self_go_attention_outputs[0]
         
-        go_outputs = self_go_attention_outputs[1:]  # add self attentions if we output attention weights
 
-        # go_attention_output = self_aa_vec_attention_outputs[0]
-        # go_outputs = self_aa_vec_attention_outputs[1:]  # add self attentions if we output attention weights
+        aa_vec_attention_output = self_aa_vec_attention_outputs[0]
+
+
+        go_attention_output = self_aa_vec_attention_outputs[0]
+        go_outputs = self_aa_vec_attention_outputs[1:]  # add self attentions if we output attention weights
         #
         # original code chunks tensors and apply feed_forward_chunk to each chunk independently if chunk_size_feed_forward>0 to save memory
         layer_output = apply_chunking_to_forward(
@@ -748,19 +715,7 @@ class KnowledgeBertModel(BertPreTrainedModel):
         # past_key_values_length
         past_key_values_length = past_key_values[0][0].shape[2] if past_key_values is not None else 0
 
-        # batch_size, seq_length = input_shape
-        # if attention_mask is None:
-        #     attention_mask = torch.ones(((batch_size, seq_length + past_key_values_length)), device=device)
 
-        # if token_type_ids is None:
-        #     if hasattr(self.embeddings, "token_type_ids"):
-        #         buffered_token_type_ids = self.embeddings.token_type_ids[:, :seq_length]
-        #         buffered_token_type_ids_expanded = buffered_token_type_ids.expand(batch_size, seq_length)
-        #         token_type_ids = buffered_token_type_ids_expanded
-        #     else:
-        #         token_type_ids = torch.zeros(input_shape, dtype=torch.long, device=device)
-
-        # import ipdb; ipdb.set_trace()
 
         extended_coordinate_attention_mask = coordinate_attention_mask[:,None,None,:].to(dtype=self.dtype)
         extended_coordinate_attention_mask = (1.0 - extended_coordinate_attention_mask) * -10000.0
