@@ -1,6 +1,6 @@
 nohup sh run_main.sh \
-      --model output/models/KeAP20/encoder \
-      --output_file fluorescence-KeAP20 \
+      --model output/models/GLProtein/encoder \
+      --output_file fluorescence-GLProtein \
       --task_name fluorescence \
       --do_train True \
       --epoch 15 \
@@ -13,4 +13,4 @@ nohup sh run_main.sh \
       --warmup_ratio 0.0 \
       --learning_rate 1e-3 \
       --seed 3 \
-      --frozen_bert True > output/fluorescence/KeAP20.out 2>&1
+      --frozen_bert True > output/fluorescence/GLProtein.out 2>&1
