@@ -487,7 +487,7 @@ class NonLinear(nn.Module):
 #     def forward(self, x):
 #         return self.main(x)
 
-class KeAPConfig:
+class GLProteinConfig:
     """
     contains configs for the decoder, and configs for the 
     """
@@ -595,7 +595,7 @@ class BertPooler(nn.Module):
 class KnowledgeDecoder(BertPreTrainedModel):
 # class KnowledgeDecoder(T5EncoderModel):
     """
-    Implementation of the full KeAP decoder
+    Implementation of the full GLProtein decoder
     """
 
     def __init__(self,decoder_config=None):
@@ -757,9 +757,9 @@ class KnowledgeDecoder(BertPreTrainedModel):
 
 
 
-class KeAP(nn.Module):
+class GLProtein(nn.Module):
     """
-    Implementation of the KeAP model
+    Implementation of the GLProtein model
     """
     def __init__(self, config) -> None:
         super().__init__()
@@ -867,7 +867,7 @@ class KeAP(nn.Module):
         num_proteins = kwargs.pop('num_proteins', None)
 
         # 1 assign useful configs to decoder config
-        kmae_config = KeAPConfig.from_json_file(protein_model_path, decoder_model_path)
+        kmae_config = GLProteinConfig.from_json_file(protein_model_path, decoder_model_path)
         kmae_config.decoder_config.num_relations=num_relations,
         kmae_config.decoder_config.num_go_terms=num_go_terms,
         kmae_config.decoder_config.num_proteins=num_proteins,
@@ -908,7 +908,7 @@ class KeAP(nn.Module):
         return kmae_model
 
 @dataclass
-class KeAPLoss:
+class GLProteinLoss:
     """
      Perform forward propagation and return loss for protein function inference
 
@@ -1075,7 +1075,7 @@ class TMVecLoss:
 
     def __call__(
         self,
-        model: KeAP,
+        model: GLProtein,
         **kwargs
     ):
         protein_mlm_input_ids = kwargs.pop('input_ids', None)
