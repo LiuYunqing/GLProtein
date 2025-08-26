@@ -338,17 +338,17 @@ def generate_PROBE_embedding(file_path: str,
     output_csv.to_csv(embedding_save_path,index=False)
 
 if __name__ == '__main__':
-    pretrained_model_path ='/home/zhouhongyu/check_code/KeAP-main/KeAP_model'
+    pretrained_model_path ='GLProtein/encoder'
 
     # change the model path to evaluate different models
     # generate_PROBE_embedding('data/protein_sequence_records_df.csv',
     # pretrained_model_path,
-    # 'KeAP20_human_embedding.csv',
+    # 'GLProtein_human_embedding.csv',
     # True
     # )
 
     generate_PROBE_embedding('data/SKEMPI_seq.csv',
     pretrained_model_path,
-    'KeAP20_SKEMPI_embedding.csv',
+    'GLProtein_SKEMPI_embedding.csv',
     False
     )
