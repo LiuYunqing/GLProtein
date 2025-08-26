@@ -1,6 +1,6 @@
 nohup sh run_main.sh \
-      --model output/models/KeAP20/encoder \
-      --output_file remote_homology-KeAP20 \
+      --model output/models/GLProtein/encoder \
+      --output_file remote_homology-GLProtein \
       --task_name remote_homology \
       --do_train True \
       --epoch 10 \
@@ -13,4 +13,4 @@ nohup sh run_main.sh \
       --warmup_ratio 0.08 \
       --learning_rate 4e-5 \
       --seed 3 \
-      --frozen_bert False > output/remote_homology/KeAP20.out 2>&1
+      --frozen_bert False > output/remote_homology/GLProtein.out 2>&1
