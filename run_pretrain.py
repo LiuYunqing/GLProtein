@@ -6,8 +6,8 @@ from transformers import HfArgumentParser, set_seed
 from transformers import BertTokenizer, AutoTokenizer, logging
 from transformers.trainer_pt_utils import get_parameter_names
 
-from src.models import KeAP, KeAPConfig, KnowledgeDecoder
-from src.trainer import KeAPTrainer
+from src.models import GLProtein, GLProteinConfig, KnowledgeDecoder
+from src.trainer import GLProteinTrainer
 from src.sampling import negative_sampling_strategy
 from src.dataset import ProteinSeqDataset, ProteinGoDataset
 from src.dataloader import DataCollatorForGoGo, DataCollatorForLanguageModeling, DataCollatorForProteinGo
@@ -84,7 +84,7 @@ def main():
     protein_go_data_collator = DataCollatorForProteinGo(protein_tokenizer=protein_tokenizer, text_tokenizer=text_tokenizer, are_protein_length_same=are_protein_length_same, use_pfi=use_pfi)
     go_go_data_collator = DataCollatorForGoGo(tokenizer=text_tokenizer)
 
-    model = KeAP.from_pretrained(
+    model = GLProtein.from_pretrained(
         protein_model_path=model_args.encoder_model_file_name,
         text_model_path=model_args.text_model_file_name,
         decoder_model_path = model_args.decoder_model_file_name,
@@ -97,7 +97,7 @@ def main():
 
 
     # prepare Trainer
-    trainer = KeAPTrainer(
+    trainer = GLProteinTrainer(
         model=model,
         args=training_args,
         protein_seq_dataset=protein_seq_dataset,
