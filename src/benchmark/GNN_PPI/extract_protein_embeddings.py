@@ -268,21 +268,21 @@ def convert_protein_seq_to_embedding(
 if __name__ == '__main__':
     # 27k
     convert_protein_seq_to_embedding(
-        '/mnt/bd/medai-kprotein/downstream_datasets/data/protein.SHS27k.sequences.dictionary.tsv',
-        '/mnt/bd/medai-kprotein/KeAP_mask20_new/checkpoint-300000/encoder',
-        '/mnt/bd/medai-kprotein/downstream_datasets/data/PPI_embeddings/protein_embedding_KeAP20_shs27k.npy'
+        '/downstream_datasets/data/protein.SHS27k.sequences.dictionary.tsv',
+        '/GLProtein/checkpoint-300000/encoder',
+        '/downstream_datasets/data/PPI_embeddings/protein_embedding_GLProtein_shs27k.npy'
     )
 
     # 148k 
     convert_protein_seq_to_embedding(
-        '/mnt/bd/medai-kprotein/downstream_datasets/data/protein.SHS148k.sequences.dictionary.tsv',
-        '/mnt/bd/medai-kprotein/KeAP_mask20_new/checkpoint-300000/encoder',
-        '/mnt/bd/medai-kprotein/downstream_datasets/data/PPI_embeddings/protein_embedding_KeAP20_shs148k.npy'
+        '/downstream_datasets/data/protein.SHS148k.sequences.dictionary.tsv',
+        '/GLProtein/checkpoint-300000/encoder',
+        '/downstream_datasets/data/PPI_embeddings/protein_embedding_GLProtein_shs148k.npy'
     )
 
     # STRING 
     convert_protein_seq_to_embedding(
-        '/mnt/bd/medai-kprotein/downstream_datasets/data/protein.STRING_all_connected.sequences.dictionary.tsv',
-        '/mnt/bd/medai-kprotein/KeAP_mask20_new/checkpoint-300000/encoder',
-        '/mnt/bd/medai-kprotein/downstream_datasets/data/PPI_embeddings/protein_embedding_KeAP20_STRING.npy'
+        '/downstream_datasets/data/protein.STRING_all_connected.sequences.dictionary.tsv',
+        'GLProtein/checkpoint-300000/encoder',
+        '/downstream_datasets/data/PPI_embeddings/protein_embedding_GLProtein_STRING.npy'
     )
