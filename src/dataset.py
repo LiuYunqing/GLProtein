@@ -214,7 +214,7 @@ class ProteinGoDataset(Dataset):
         self.num_relations = len(self.id2relation)
 
         self.go_types = {idx: line.rstrip('\n') for idx, line in enumerate(open(os.path.join(self.data_dir, 'go_type.txt'), 'r'))}
-        with open('/home/yunqing/KeAP/seqs.pkl','rb') as f:
+        with open('data/seqs.pkl','rb') as f:
             self.protein_seq = pickle.load(f)
         # self.protein_seq = [line.rstrip('\n') for line in open(os.path.join(self.data_dir, 'protein_seq.txt'), 'r')] #avg protein len ~360
         def trans_sequence(sequence):
