@@ -34,7 +34,6 @@ GO_GO_SAMPLE_TAIL=true
 # Protein sequence pretrained model
 ENCODER_MODEL_PATH="/mnt/bd/medai-protein/prot_bert"
 
-# KeAPModel
 TEXT_MODEL_PATH='/mnt/bd/medai-protein/PubMedBERT'
 GO_ENCODER_CLS="bert"
 PROTEIN_ENCODER_CLS="bert"
