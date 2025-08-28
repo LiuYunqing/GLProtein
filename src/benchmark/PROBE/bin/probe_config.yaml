@@ -1,5 +1,5 @@
 #Representation name (used for naming output files):
-representation_name: KeAP20
+representation_name: GLProtein
 
 #Benchmarks (should be one of the "similarity","family","function","affinity","all"):
 # "similarity" for running protein semantic similarity inference benchmark
@@ -10,10 +10,10 @@ representation_name: KeAP20
 benchmark: similarity
 
 #Path of the file containing representation vectors of UniProtKB/Swiss-Prot human proteins:
-representation_file_human: /mnt/bd/medai-kprotein/protein_function_prediction/PROBE/KeAP20_human_embedding.csv
+representation_file_human: /mnt/bd/medai-kprotein/protein_function_prediction/PROBE/GLProtein_human_embedding.csv
 
 #Path of the file containing representation vectors of samples in the SKEMPI dataset: 
-representation_file_affinity: /mnt/bd/medai-kprotein/protein_function_prediction/PROBE/KeAP20_SKEMPI_embedding.csv
+representation_file_affinity: /mnt/bd/medai-kprotein/protein_function_prediction/PROBE/GLProtein_SKEMPI_embedding.csv
 
 
 #Semantic similarity inference benchmark dataset (should be a list that includes any combination of "Sparse", "200", and "500"):
