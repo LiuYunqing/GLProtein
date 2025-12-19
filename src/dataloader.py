@@ -50,13 +50,9 @@ def _collate_batch_for_protein_cor(
         else:
             result[i][-example.size(0):] = example
 
-    # print("result:\n", result)
-    # result = cart2sphArray(result)
-    result = torch.tensor(result, dtype=torch.float)
-    # print("result:\n", result)
-    # import ipdb;ipdb.set_trace()
 
-    # coordinate_attention_mask = (result != float('-inf')).long()
+    result = torch.tensor(result, dtype=torch.float)
+
 
     return result
 
@@ -69,7 +65,7 @@ def _collate_batch_for_aa_vec(
     if isinstance(examples[0], ProteinGoInputFeatures):
         examples = [torch.tensor(np.array(e.aa_vec), dtype=torch.float) for e in examples]
 
-    # print("examples:\n", examples)
+
 
     if are_protein_length_same:
         return torch.stack(examples, dim=0)
@@ -84,12 +80,9 @@ def _collate_batch_for_aa_vec(
             result[i][-example.size(0):] = example
 
     
-    # result = cart2sphArray(result)
-    result = torch.tensor(result, dtype=torch.float)
-    # print("result:\n", result)
-    # import ipdb;ipdb.set_trace()
 
-    # coordinate_attention_mask = (result != float('-inf')).long()
+    result = torch.tensor(result, dtype=torch.float)
+
 
     return result
 
@@ -163,13 +156,12 @@ def _collate_batch_for_protein_go(
     all_negative_go_attention_mask = None
     all_negative_go_token_type_ids = None
 
-    # import ipdb;ipdb.set_trace()
+
 
     if use_desc:
         all_postive_relation_attention_mask = (all_postive_relation_ids != text_tokenizer.pad_token_id).long()
         all_postive_relation_token_type_ids = torch.zeros_like(all_postive_relation_ids, dtype=torch.long)
-        # all_negative_relation_attention_mask = (all_negative_relation_ids != text_tokenizer.pad_token_id).long()
-        # all_negative_relation_token_type_ids = torch.zeros_like(all_negative_relation_ids, dtype=torch.long)
+
 
         all_postive_go_attention_mask = (all_postive_go_input_ids != text_tokenizer.pad_token_id).long()
         all_postive_go_token_type_ids = torch.zeros_like(all_postive_go_input_ids, dtype=torch.long)
@@ -180,7 +172,7 @@ def _collate_batch_for_protein_go(
 
     # note all_negative_protein_input_ids = None, just use all_postive_protein_input_ids to save memory
 
-    # import ipdb;ipdb.set_trace()
+
     return {
         'protein_input_ids': all_postive_protein_input_ids,
         'relation_ids': all_postive_relation_ids,
@@ -210,7 +202,7 @@ def _collate_batch_for_go_go(
     if not isinstance(examples[0].postive_go_head_input_ids, int):
         use_desc = True
     #collate postive samples.
-    # Go head
+
     if use_desc:
         all_postive_go_head_input_ids = [torch.tensor(example.postive_go_head_input_ids, dtype=torch.long) for example in examples]
         all_postive_go_head_input_ids = torch.stack(all_postive_go_head_input_ids, dim=0)
@@ -334,11 +326,11 @@ class DataCollatorForProteinGo:
         examples: List[ProteinGoInputFeatures]
     ) -> Dict[str, torch.Tensor]:
 
-        # import ipdb;ipdb.set_trace()
+
         batch = _collate_batch_for_protein_go(examples, self.protein_tokenizer, self.text_tokenizer, self.are_protein_length_same,use_pfi=self.use_pfi)
         batch['protein_coordinates']= _collate_batch_for_protein_cor(examples,self.protein_tokenizer, self.are_protein_length_same)
         # special_tokens_mask always None
-        # import ipdb;ipdb.set_trace()
+
         batch['aa_vec'] = _collate_batch_for_aa_vec(examples,self.protein_tokenizer, self.are_protein_length_same)
     
 
@@ -353,18 +345,17 @@ class DataCollatorForProteinGo:
                 labels[labels == self.protein_tokenizer.pad_token_id] = -100
             batch['protein_labels'] = labels
 
-        # import ipdb;ipdb.set_trace()
-        # batch['protein_attention_mask'] = (batch['protein_input_ids'] != self.protein_tokenizer.pad_token_id).long()
+
         batch['protein_attention_mask'] = batch['protein_input_ids']['attention_mask']
         batch['coordinate_attention_mask'] = batch['protein_attention_mask']
         batch['aa_vec_attention_mask'] = batch['protein_attention_mask']
         batch['protein_token_type_ids'] = torch.zeros_like(batch['protein_input_ids']['input_ids'], dtype=torch.long)
 
-        # for labels of protein function inference
+
         batch['pfi_pos'] = torch.tensor([1],dtype=torch.long)
         batch['pfi_neg'] = torch.tensor([0],dtype=torch.long)
 
-        # import ipdb;ipdb.set_trace()
+
 
         return batch
 
@@ -422,7 +413,6 @@ class DataCollatorForProteinGo:
             # Only one sentinel_token per racha
             sent_token_id = 0
 
-            # import ipdb; ipdb.set_trace()
 
             # tokenized_sentence = tokenized_sentence.tolist()
             
@@ -477,7 +467,7 @@ class DataCollatorForProteinGo:
                 enmascared_inputs.append(input)
                 enmascared_targets.append(target)
             
-            # import ipdb; ipdb.set_trace()
+
             
             input_ids = tokenizer(enmascared_inputs, return_tensors='pt', padding=True, truncation=True)
             labels = tokenizer(enmascared_targets, return_tensors='pt', padding=True, truncation=True)
@@ -542,9 +532,7 @@ class DataCollatorForLanguageModeling:
         batch['aa_vec_attention_mask'] = batch['attention_mask']
         batch['token_type_ids'] = torch.zeros_like(batch['input_ids'], dtype=torch.long)
 
-        # print("batch:\n", batch)
-        # import pdb
-        # pdb.set_trace()
+
         return batch
 
     def mask_tokens(
