@@ -607,7 +607,7 @@ class KnowledgeDecoder(BertPreTrainedModel):
         for param in self.textbert.parameters():
             param.requires_grad = False
 
-        # import ipdb; ipdb.set_trace()
+
         # decoder
         self.config = decoder_config
         self.decoder = KnowledgeBertModel(decoder_config,add_pooling_layer=False)
@@ -654,8 +654,8 @@ class KnowledgeDecoder(BertPreTrainedModel):
         batch, protein_len, protein_embed_size = inputs_embeds.size()
 
         ### coordinate feature extraction
-        # TODO: add coordinate feature extraction 
-        # import ipdb; ipdb.set_trace()
+
+
         coordinate_input,coordinate_attention_mask = coordinate_inputs 
         aa_vec_input,aa_vec_attention_mask = aa_vec_inputs
 
@@ -697,7 +697,7 @@ class KnowledgeDecoder(BertPreTrainedModel):
 
         go_feat = self.go_project(go_feat) #(batch,, go len, decoder hidden dim)
 
-        # import ipdb; ipdb.set_trace()
+
         ### relation feature extraction
         relation_input_ids, relation_attention_mask, relation_token_type_ids = relation_inputs
         relation_out = self.textbert(relation_input_ids,
@@ -705,15 +705,15 @@ class KnowledgeDecoder(BertPreTrainedModel):
                                     token_type_ids=relation_token_type_ids,
                                     output_hidden_states=True,
                                     return_dict=True) # (batch,token len, feat_dim)
-        # import ipdb; ipdb.set_trace()
+
 
         relation_feat = torch.cat(tuple([relation_out.hidden_states[i].unsqueeze(1) for i in [-4, -3, -2, -1]]), dim=1) # (b ,4,relation len, hidden_dim)
-        # import ipdb; ipdb.set_trace()
+
         relation_feat = torch.mean(relation_feat,dim=1) # (b,relation len, hidden_dim)
 
         relation_feat = self.relation_project(relation_feat) #(batch,relation len, decoder hidden dim)'
         
-        # import ipdb; ipdb.set_trace()
+
 
         #HACK
         ## input embedding to decoder, mask stay the same as protbert
@@ -736,7 +736,7 @@ class KnowledgeDecoder(BertPreTrainedModel):
             aa_vec_attention_mask = aa_vec_attention_mask,
         )
 
-        # # import ipdb; ipdb.set_trace()
+
         # # output_seq = out.hidden_states[-1]
         output_seq = out[0] # last hidden layer
 
